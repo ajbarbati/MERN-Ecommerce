@@ -1,12 +1,23 @@
 // grabs nessecary componets
 const express = require('express')
-const app = express()
+const mongoose = require('mongoose')
 require('dotenv').config()
+//import routes
+const userRoutes = require('./routes/user')
 
-// tells browesr to send this message when you are on defaukt page
-app.get('/', (req, res) => {
-    res.send("Hello from node")
-})
+
+//app
+const app = express()
+
+//db
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useCreateIndex: true
+}).then(() => console.log('DB CONNECTED'))
+
+
+//routes middleware
+app.use('/', userRoutes)
 
 const port = process.env.PORT || 8000
 
